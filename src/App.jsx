@@ -1,5 +1,9 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
+import GoogleSheetsAuth from './components/GoogleSheetsAuth';
+import ExcelAuth from './components/ExcelAuth';
+import SimpleExcelAuth from './components/SimpleExcelAuth';
+import VoiceBooking from './components/VoiceBooking';
 import Login from './pages/Login';
 import Ambulance from './pages/Ambulance';
 import Hospital from './pages/Hospital';
@@ -62,6 +66,14 @@ export default function App() {
           element={
             <RoleRoute role="driver">
               <Ambulance />
+            </RoleRoute>
+          }
+        />
+        <Route
+          path="/voice-booking"
+          element={
+            <RoleRoute role="driver">
+              <VoiceBooking />
             </RoleRoute>
           }
         />

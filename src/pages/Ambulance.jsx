@@ -251,10 +251,24 @@ export default function Ambulance() {
                 </div>
               </div>
 
-              <div className="flex flex-wrap items-center gap-4 text-xs">
-                <InfoPill icon={<Hash size={11} />} label={t.driverId} value={user?.id || '—'} />
-                <InfoPill icon={<MapPin size={11} />} label={t.location} value={user?.location || '—'} />
-                <InfoPill icon={<Activity size={11} />} label={t.status} value={t.shift} green />
+              <div className="flex flex-wrap items-center gap-3">
+                {/* Voice Booking Button */}
+                <button
+                  onClick={() => window.location.href = '/voice-booking'}
+                  className="flex items-center gap-1.5 px-3 py-1.5 bg-green-600/80 hover:bg-green-600 border border-green-400/30 rounded-lg text-xs font-medium transition-all"
+                >
+                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M7 4a3 3 0 016 0v4a3 3 0 11-6 0V4zm4 10.93A7.001 7.001 0 0017 8a1 1 0 10-2 0A5 5 0 015 8a1 1 0 00-2 0 7.001 7.001 0 006 6.93V17H6a1 1 0 100 2h8a1 1 0 100-2h-3v-2.07z" clipRule="evenodd" />
+                  </svg>
+                  <span className="hidden sm:inline">Voice Booking</span>
+                  <span className="sm:hidden">Voice</span>
+                </button>
+
+                <div className="flex flex-wrap items-center gap-4 text-xs">
+                  <InfoPill icon={<Hash size={11} />} label={t.driverId} value={user?.id || '—'} />
+                  <InfoPill icon={<MapPin size={11} />} label={t.location} value={user?.location || '—'} />
+                  <InfoPill icon={<Activity size={11} />} label={t.status} value={t.shift} green />
+                </div>
               </div>
             </div>
           </div>
