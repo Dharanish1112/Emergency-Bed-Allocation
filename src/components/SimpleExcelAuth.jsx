@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
-import { Shield, LogIn, Eye, EyeOff, Users, MapPin, Activity, Building, User } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { Mic, MicOff, Volume2, VolumeX, Phone, MapPin, User, Calendar, Clock, CheckCircle, AlertCircle } from 'lucide-react';
 import toast from 'react-hot-toast';
+import * as XLSX from 'xlsx';
+import apiService from '../services/api';
 
 const SimpleExcelAuth = ({ onAuthSuccess }) => {
   const [email, setEmail] = useState('');
@@ -125,33 +127,56 @@ const SimpleExcelAuth = ({ onAuthSuccess }) => {
     e.preventDefault();
     
     if (!email || !password) {
-      toast.error('Please enter email and password');
+      toast.error('Please enter both email and password');
       return;
     }
 
     setLoading(true);
-    
+
     try {
-      // Authenticate with Excel data
-      const userData = await authenticateWithExcel(email, password);
-      
-      if (userData) {
-        // Save user data to localStorage
-        localStorage.setItem('simpleExcelUser', JSON.stringify(userData));
-        localStorage.setItem('auth', 'true');
+      // First try backend authentication
+      try {
+        const user = await apiService.login(email, password);
         
-        setCurrentUser(userData);
-        setIsAuthenticated(true);
-        
-        onAuthSuccess(userData);
-        toast.success(`Welcome, ${userData.name}! Role: ${userData.role}`);
-      } else {
-        toast.error('Invalid User ID or password');
+        if (user) {
+          setIsAuthenticated(true);
+          setCurrentUser(user);
+          
+          // Store in localStorage
+          localStorage.setItem('simpleExcelUser', JSON.stringify(user));
+          localStorage.setItem('auth', 'true');
+          
+          // Call success callback
+          onAuthSuccess(user);
+          
+          toast.success(`Welcome, ${user.name}!`);
+          return;
+        }
+      } catch (backendError) {
+        console.log('Backend auth failed, trying Excel fallback:', backendError.message);
       }
       
+      // Fallback to Excel authentication
+      const user = await authenticateWithExcel(email, password);
+      
+      if (user) {
+        setIsAuthenticated(true);
+        setCurrentUser(user);
+        
+        // Store in localStorage
+        localStorage.setItem('simpleExcelUser', JSON.stringify(user));
+        localStorage.setItem('auth', 'true');
+        
+        // Call success callback
+        onAuthSuccess(user);
+        
+        toast.success(`Welcome, ${user.name}!`);
+      } else {
+        toast.error('Invalid email or password');
+      }
     } catch (error) {
+      toast.error('Login failed. Please try again.');
       console.error('Login error:', error);
-      toast.error('Failed to authenticate. Please try again.');
     } finally {
       setLoading(false);
     }

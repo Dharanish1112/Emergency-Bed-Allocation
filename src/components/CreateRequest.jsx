@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Phone, MapPin, User, Clock, AlertTriangle, Send } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { addRequest } from '../data/store';
+import apiService from '../services/api';
 
 const CreateRequest = ({ driver, hospitals, onRequestCreated }) => {
   const [formData, setFormData] = useState({
@@ -34,20 +35,45 @@ const CreateRequest = ({ driver, hospitals, onRequestCreated }) => {
     try {
       const selectedHospital = hospitals.find(h => h.id === formData.hospitalId);
       
-      const booking = {
+      const bookingData = {
         bookingId: 'REQ' + Date.now(),
-        hospital: selectedHospital,
-        driver: driver,
+        hospitalId: formData.hospitalId,
+        hospitalName: selectedHospital.name,
+        driverId: driver.id,
+        driverName: driver.name,
         patientName: formData.patientName,
         patientAge: formData.patientAge,
         patientPhone: formData.patientPhone,
         emergencyType: formData.emergencyType,
         bedType: formData.bedType,
-        notes: formData.notes
+        notes: formData.notes,
+        eta: selectedHospital.eta || '15 mins',
+        distance: selectedHospital.distance || '5 km'
       };
 
-      addRequest(booking);
-      toast.success('Request sent to hospital successfully!');
+      // Try backend API first
+      try {
+        const response = await apiService.createRequest(bookingData);
+        if (response.success) {
+          toast.success('Request sent to hospital successfully!');
+        }
+      } catch (backendError) {
+        console.log('Backend request failed, using localStorage fallback:', backendError.message);
+        // Fallback to localStorage
+        const booking = {
+          bookingId: bookingData.bookingId,
+          hospital: selectedHospital,
+          driver: driver,
+          patientName: formData.patientName,
+          patientAge: formData.patientAge,
+          patientPhone: formData.patientPhone,
+          emergencyType: formData.emergencyType,
+          bedType: formData.bedType,
+          notes: formData.notes
+        };
+        addRequest(booking);
+        toast.success('Request sent to hospital successfully!');
+      }
       
       // Reset form
       setFormData({
@@ -61,7 +87,7 @@ const CreateRequest = ({ driver, hospitals, onRequestCreated }) => {
       });
 
       if (onRequestCreated) {
-        onRequestCreated(booking);
+        onRequestCreated(bookingData);
       }
 
     } catch (error) {

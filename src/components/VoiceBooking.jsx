@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Mic, MicOff, Volume2, VolumeX, Phone, MapPin, User, Calendar, Clock, CheckCircle, AlertCircle } from 'lucide-react';
 import toast from 'react-hot-toast';
 import * as XLSX from 'xlsx';
+import apiService from '../services/api';
 
 const VoiceBooking = () => {
   const [isListening, setIsListening] = useState(false);
@@ -32,7 +33,28 @@ const VoiceBooking = () => {
 
   const loadHospitalsFromExcel = async () => {
     try {
-      // First try to read from hospital.csv (easier to work with)
+      // First try backend API
+      try {
+        const response = await apiService.getHospitals(currentLocation);
+        if (response.success && response.hospitals) {
+          const formattedHospitalData = response.hospitals.map(hospital => ({
+            id: hospital.id,
+            name: hospital.name,
+            location: hospital.location,
+            bedsAvailable: hospital.bedsAvailable,
+            phone: hospital.phone,
+            bedTypes: hospital.bedTypes || { icu: 0, emergency: 0, general: 0, private: 0, deluxe: 0 }
+          }));
+          
+          console.log('Loaded from backend API:', formattedHospitalData);
+          setHospitals(formattedHospitalData);
+          return;
+        }
+      } catch (apiError) {
+        console.log('Backend API failed, trying Excel fallback:', apiError.message);
+      }
+      
+      // Fallback to Excel/CSV files
       let hospitalData = [];
       
       try {
