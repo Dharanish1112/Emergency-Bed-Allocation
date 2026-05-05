@@ -8,7 +8,6 @@ import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import BookingModal from '../components/BookingModal';
 import SimpleMap from '../components/SimpleMap';
-import CreateRequest from '../components/CreateRequest';
 import { hospitals as ALL_HOSPITALS, emergencyTypes, getHospitalsByCity } from '../data/dummy';
 import { getBedsForHospital, getRequests } from '../data/store';
 
@@ -334,15 +333,6 @@ export default function Ambulance() {
               </div>
             </div>
           </section>
-
-          {/* ── CREATE REQUEST SECTION ───────────────────────── */}
-          <CreateRequest 
-            driver={user} 
-            hospitals={ALL_HOSPITALS}
-            onRequestCreated={(booking) => {
-              toast.success('Request sent successfully!');
-            }}
-          />
 
           {/* Map Section */}
           <section className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">

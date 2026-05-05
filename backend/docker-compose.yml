@@ -1,6 +1,23 @@
 version: '3.8'
 
 services:
+  # MongoDB Database
+  mongodb:
+    image: mongo:6.0
+    container_name: emergency-mongodb
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: password123
+      MONGO_INITDB_DATABASE: emergency-bed-booking
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+    networks:
+      - emergency-network
+
   # Backend API
   backend:
     build: .
@@ -8,16 +25,21 @@ services:
     restart: unless-stopped
     environment:
       NODE_ENV: production
-      MONGODB_URI: mongodb+srv://dharanish1112_db_user:snWn9S6kpNU6UeBA@hca.8fkc3uf.mongodb.net/emergency-bed-booking?retryWrites=true&w=majority
+      MONGODB_URI: mongodb://admin:password123@mongodb:27017/emergency-bed-booking?authSource=admin
       JWT_SECRET: your-super-secret-jwt-key-change-this-in-production
       PORT: 5001
-      FRONTEND_URL: https://emergency-bed-allocation.onrender.com
+      FRONTEND_URL: http://localhost:5173
     ports:
       - "5001:5001"
+    depends_on:
+      - mongodb
     networks:
       - emergency-network
     volumes:
       - ./logs:/app/logs
+
+volumes:
+  mongodb_data:
 
 networks:
   emergency-network:
