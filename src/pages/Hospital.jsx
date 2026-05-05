@@ -7,6 +7,7 @@ import toast from 'react-hot-toast';
 import GovHeader from '../components/GovHeader';
 import StatsCard from '../components/StatsCard';
 import RequestCard from '../components/RequestCard';
+import VoiceBookingList from '../components/VoiceBookingList';
 import { incomingRequests, getHospitalById } from '../data/dummy';
 import {
   getRequestsForHospital,
@@ -362,6 +363,27 @@ export default function Hospital() {
                 <AvailBar label={t.emergencyBeds} current={beds.emergency} max={20} color="orange" />
                 <AvailBar label={t.generalBeds}   current={beds.general}   max={60} color="blue" />
               </div>
+            </div>
+          </div>
+        </div>
+
+        {/* ── Voice Bookings ─────────────────────────────── */}
+        <div className="lg:col-span-2">
+          <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+            {/* Section header */}
+            <div className="flex items-center justify-between px-5 py-3.5 border-b border-gray-100">
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 bg-green-50 rounded-lg flex items-center justify-center">
+                  <svg className="w-4 h-4 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M7 4a3 3 0 016 0v4a3 3 0 11-6 0V4zm4 10.93A7.001 7.001 0 0017 8a1 1 0 10-2 0A5 5 0 015 8a1 1 0 00-2 0 7.001 7.001 0 006 6.93V17H6a1 1 0 100 2h8a1 1 0 100-2h-3v-2.07z" clipRule="evenodd" />
+                  </svg>
+                </div>
+                <h3 className="font-semibold text-gray-900">Voice Bookings</h3>
+              </div>
+            </div>
+
+            <div className="p-5">
+              <VoiceBookingList />
             </div>
           </div>
         </div>

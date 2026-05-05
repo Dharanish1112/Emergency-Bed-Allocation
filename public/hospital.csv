@@ -1,0 +1,11 @@
+ID,Hospital Name,Location,Total Beds,Phone,ICU Beds,Emergency Beds,General Beds,Private Rooms,Deluxe Rooms
+H001,KMC Hospital,Srirangam, Trichy,50,9876543212,10,20,15,5,0
+H002,Apollo Hospital,Woraiyur, Trichy,30,9876543213,8,12,10,0,0
+H003,Govt Hospital,Trichy,40,9876543214,15,15,10,0,0
+H004,SRM Hospital,Chennai,60,9876543215,20,25,15,10,10
+H005,Apollo Chennai,Chennai,45,9876543216,12,18,10,8,7
+H006,Govt Chennai,Chennai,55,9876543217,18,20,10,7,0
+H007,PSG Hospital,Coimbatore,35,9876543218,8,12,10,5,0
+H008,KMCH Hospital,Coimbatore,40,9876543219,10,10,15,5,0
+H009,Christian Hospital,Trichy,25,9876543220,5,8,10,2,0
+H010,Appollo Hosspital,Bangalore,70,9876543221,25,30,15,10,10
