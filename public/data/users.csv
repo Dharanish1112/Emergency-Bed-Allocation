@@ -1,0 +1,9 @@
+id,email,password,name,role,phone,department,location,hospitalId,bedsAvailable,licenseNo,ambulanceNo
+A001,admin@emergency.com,admin123,Super Admin,Super Admin,9876543210,Emergency Management,Trichy,,0,,
+A002,sysadmin@emergency.com,admin456,System Admin,Admin,9876543211,IT Department,Trichy,,0,,
+H001,kmc@hospital.com,kmc123,KMC Hospital,Hospital Admin,9876543212,Emergency Ward,Trichy,H001,50,,
+H002,apollo@hospital.com,apollo123,Apollo Hospital,Hospital Admin,9876543213,Emergency Services,Trichy,H002,30,,
+H003,govt@hospital.com,govt123,Govt Hospital,Hospital Admin,9876543214,Emergency Ward,Trichy,H003,40,,
+D001,driver1@emergency.com,driver123,Raj Kumar,Driver,9876543215,Emergency Services,Trichy,,0,TN-01-2023-0001,TN-01-AB-1234
+D002,driver2@emergency.com,driver456,Kumaravel,Driver,9876543216,Emergency Services,Trichy,,0,TN-01-2023-0002,TN-01-AB-5678
+D003,driver3@emergency.com,driver789,Mohan,Driver,9876543217,Emergency Services,Trichy,,0,TN-01-2023-0003,TN-01-AB-9999
